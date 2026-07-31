@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lidianefranca.com.br/sitemap.xml

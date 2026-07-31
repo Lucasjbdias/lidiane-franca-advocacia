@@ -1,0 +1,12 @@
+SITE — Dra. Lidiane França Dias
+--------------------------------------------------------------------
+Site estático de uma página, editorial. Sem framework, CDN, cookie ou rastreador.
+
+PUBLICAR (grátis): https://app.netlify.com/drop — arraste a PASTA site/ inteira.
+Depois aponte o domínio lidianefranca.com.br (ver PUBLICAR-lidianefranca.md).
+
+EDITAR ANTES:
+· index.html → <!-- EDITAR: --> na seção Sobre (2–3 parágrafos reais, pós-graduações).
+· Contato já usa advfrancadias@gmail.com, (31) 99632-0110 e o endereço da sociedade.
+
+Arquivos: index.html · estilo.css · fontes/ · img/ · robots.txt · sitemap.xml
