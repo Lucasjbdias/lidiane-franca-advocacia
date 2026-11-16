@@ -1,0 +1,368 @@
+<title>Apuração Presidente __ANO__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: painel de apuração — faixa de resumo nacional, depois blocos UF → município → seção, do agregado ao detalhe */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --ink:#14211f; --muted:#5a6b68; --line:#d5dddb;
+  --accent:#0f6b5c; --c1:#1f5fa8; --c2:#c4472b; --c3:#7a8f3a; --c4:#8a5aa8; --c5:#b08a1e;
+  --branco:#b9c4c1; --nulo:#6f7d7a; --abst:#e3e8e6; --warn:#a66a00; --warn-bg:#fff3d6;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1716; --surface:#16211f; --ink:#e4ecea; --muted:#93a5a1; --line:#2a3a37;
+  --accent:#4cc2a9; --c1:#6aa6ea; --c2:#f07c5f; --c3:#a9c160; --c4:#b892d6; --c5:#dcb54a;
+  --branco:#5d6c69; --nulo:#8d9c99; --abst:#22302d; --warn:#f0b54a; --warn-bg:#3a2e12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1716; --surface:#16211f; --ink:#e4ecea; --muted:#93a5a1; --line:#2a3a37;
+  --accent:#4cc2a9; --c1:#6aa6ea; --c2:#f07c5f; --c3:#a9c160; --c4:#b892d6; --c5:#dcb54a;
+  --branco:#5d6c69; --nulo:#8d9c99; --abst:#22302d; --warn:#f0b54a; --warn-bg:#3a2e12; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px;display:grid;gap:36px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:2.4rem;line-height:1.05}
+h2{font-size:1.6rem}
+h3{font-size:1.15rem}
+.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.num,td.n,th.n{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono);font-size:.85em}
+header{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:end;justify-content:space-between}
+header p{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:600 .9rem var(--f-body);padding:8px 14px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.seg button:focus-visible,input:focus-visible,select:focus-visible,th button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.aviso{background:var(--warn-bg);color:var(--ink);border-left:4px solid var(--warn);padding:10px 14px;border-radius:4px}
+section{display:grid;gap:16px}
+.sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between}
+.sec-head p{margin:0;color:var(--muted);max-width:70ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tiles.quatro{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:760px){.tiles.quatro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{background:var(--surface);outline:1px solid var(--line);padding:14px 16px;display:grid;gap:2px}
+.tile b{font-family:var(--f-display);font-size:1.9rem;font-weight:600;line-height:1.1}
+.tile small{color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px;min-width:0}
+.cands{display:grid;gap:12px}
+.cand{display:grid;grid-template-columns:minmax(120px,220px) 1fr auto;gap:12px;align-items:center}
+.cand .nome{font-weight:600;overflow-wrap:anywhere}
+.bar{height:14px;background:var(--abst);border-radius:3px;overflow:hidden;display:flex}
+.bar span{display:block;height:100%}
+.cand .pct{font-family:var(--f-display);font-size:1.4rem;font-weight:600;min-width:4.5ch;text-align:right}
+.stack{height:28px;border-radius:4px;overflow:hidden;display:flex}
+.stack span{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+input[type=search],select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+input[type=search]{min-width:0;flex:1 1 220px}
+label.chk{display:inline-flex;gap:6px;align-items:center;font-size:.9rem}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{position:sticky;top:0;background:var(--surface);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+th button{all:unset;cursor:pointer}
+th button::after{content:" ↕";opacity:.4}
+td.n,th.n{text-align:right}
+tbody tr:hover{background:var(--bg)}
+.pill{display:inline-block;font-size:.72rem;font-weight:600;padding:1px 8px;border-radius:99px;border:1px solid currentColor}
+.pill.vir{color:var(--warn)}
+.mini{display:inline-flex;width:90px;height:8px;border-radius:2px;overflow:hidden;vertical-align:middle;background:var(--abst)}
+.mini span{height:100%}
+.up{color:var(--c2)} .down{color:var(--c1)}
+.foot{color:var(--muted);font-size:.85rem;display:grid;gap:6px}
+.foot code{font-family:var(--f-mono)}
+.more{color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.btn{font:600 .85rem var(--f-body);padding:6px 12px;border:1px solid var(--accent);border-radius:6px;background:transparent;color:var(--accent);cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fatos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 28px;margin:0;padding:0;list-style:none}
+.fatos li{border-top:2px solid var(--ink);padding-top:10px;display:grid;gap:4px;min-width:0}
+.fatos b{font-family:var(--f-display);font-size:1.5rem;font-weight:600;line-height:1.15}
+.fatos span{color:var(--muted);font-size:.92rem}
+.ufchart{display:grid;gap:3px;position:relative}
+.ufrow{display:grid;grid-template-columns:2.4em 1fr 3.6em 3.6em;gap:8px;align-items:center;font-size:.85rem}
+.ufrow .trk{position:relative;height:16px;display:flex;border-radius:2px;overflow:hidden;background:var(--abst)}
+.ufrow .trk span{height:100%}
+.ufrow .trk::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;border-left:1px dashed var(--ink);opacity:.55}
+.ufrow .v{text-align:right}
+.ok{color:var(--accent);font-weight:600}
+.bad{color:var(--c2);font-weight:600}
+@media (max-width:560px){.cand{grid-template-columns:1fr auto}.cand .bar{grid-column:1/-1;order:3}h1{font-size:1.9rem}}
+@media (prefers-reduced-motion:no-preference){.bar span,.stack span{transition:width .4s ease}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Eleição presidencial · Brasil · fonte TSE</div>
+      <h1>Apuração Presidente __ANO__</h1>
+      <p id="sub">Votação por seção eleitoral, consolidada por UF e município, com votos válidos, brancos, nulos e abstenção.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Turno" id="turnoSeg"></div>
+  </header>
+  <div class="aviso" id="avisoExemplo" hidden>Dados de exemplo gerados para testar o painel. Estes números não são resultado oficial.</div>
+
+  <section aria-labelledby="h-fatos" id="secFatos" hidden>
+    <div class="sec-head"><h2 id="h-fatos">O que aconteceu</h2><p>Leitura dos números oficiais, seção por seção, do 1º para o 2º turno.</p></div>
+    <ul class="fatos" id="fatos"></ul>
+  </section>
+
+  <section aria-labelledby="h-nac">
+    <div class="sec-head"><h2 id="h-nac">Resultado nacional</h2><p id="nacNota"></p></div>
+    <div class="tiles" id="tiles"></div>
+    <div class="grid2">
+      <div class="panel"><h3>Votos válidos por candidato</h3><div class="cands" id="cands"></div></div>
+      <div class="panel"><h3>Destino do eleitorado apto</h3><div class="stack" id="stack"></div><div class="legend" id="stackLeg"></div>
+        <p class="more">Votos válidos são os nominais. Brancos e nulos não entram no cálculo do percentual de cada candidato (CF, art. 77, §2º).</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-cmp" id="secCmp" hidden>
+    <div class="sec-head"><h2 id="h-cmp">Do 1º para o 2º turno</h2><p>Saldo nacional entre os turnos. Ganho de cada finalista frente aos votos que ficaram livres com os eliminados e à variação de brancos, nulos e comparecimento.</p></div>
+    <div class="tiles quatro" id="cmpTiles"></div>
+  </section>
+
+  <section aria-labelledby="h-uf">
+    <div class="sec-head"><h2 id="h-uf">Por unidade da federação</h2><p>ZZ reúne as seções no exterior. Clique no cabeçalho para ordenar.</p></div>
+    <div class="panel"><h3 id="ufChartTit">Divisão dos votos válidos por UF</h3><div class="legend" id="ufLeg"></div><div class="ufchart" id="ufChart"></div>
+      <p class="more">Linha tracejada: 50% dos válidos.</p></div>
+    <div class="tbl"><table id="tUF"></table></div>
+  </section>
+
+  <section aria-labelledby="h-mun">
+    <div class="sec-head"><h2 id="h-mun">Por município</h2><p id="munNota"></p></div>
+    <div class="controls">
+      <input type="search" id="qMun" placeholder="Buscar município" aria-label="Buscar município">
+      <select id="ufMun" aria-label="Filtrar UF"></select>
+      <label class="chk" id="lblVir"><input type="checkbox" id="soVir"> Só onde o vencedor mudou</label>
+    </div>
+    <div class="tbl"><table id="tMun"></table></div>
+    <div class="more" id="munMore"></div>
+  </section>
+
+  <section aria-labelledby="h-anom">
+    <div class="sec-head"><h2 id="h-anom">Seções fora do padrão</h2><p>Seções com 50 ou mais votos cujo percentual está 3 desvios-padrão acima da média do próprio município, além das seções com 95% ou mais dos válidos para um só candidato. Um ponto fora da curva pede verificação no boletim de urna. Ele não indica irregularidade por si só.</p></div>
+    <div class="seg" role="group" aria-label="Tipo de anomalia" id="anomSeg"></div>
+    <div class="tbl"><table id="tAnom"></table></div>
+    <div class="more" id="anomNota"></div>
+  </section>
+
+  <section aria-labelledby="h-val" id="secVal" hidden>
+    <div class="sec-head"><h2 id="h-val">Conferência com o TSE</h2><p>A soma das seções (Portal de Dados Abertos) comparada ao total divulgado pela API oficial de resultados do TSE.</p></div>
+    <div class="tbl"><table id="tVal"></table></div>
+    <p class="more" id="valNota"></p>
+  </section>
+
+  <div class="foot">
+    <div>Fonte: Portal de Dados Abertos do TSE, arquivos <code>votacao_secao</code> e <code>detalhe_votacao_secao</code>, cargo Presidente (código 1). Branco = votável 95, nulo = votável 96.</div>
+    <div>Arquivos completos (seção × turno, município, UF, comparativo) acompanham este painel em CSV.</div>
+  </div>
+</div>
+
+<script>
+const D = __DADOS__;
+const PAL = ["--c1","--c2","--c3","--c4","--c5"];
+const fmt = n => n==null ? "–" : Number(n).toLocaleString("pt-BR");
+const pct = (n,d=1) => n==null ? "–" : Number(n).toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d})+"%";
+const sgn = (n,d=1) => n==null ? "–" : (n>0?"+":"")+Number(n).toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const turnos = D.turnos.map(String);
+const temCmp = turnos.includes("1") && turnos.includes("2");
+let estado = {turno: turnos[turnos.length-1], anom: "PCT_NULOS"};
+try { const h = location.hash.slice(1); if (h==="t1"||h==="t2") estado.turno = h.slice(1); } catch(e){}
+
+// cor estável por candidato: ordem de votação no 1º turno
+const ordem = (() => { const t = D.nacional[turnos[0]]; return Object.keys(D.candidatos[turnos[0]]).sort((a,b)=>t[b]-t[a]); })();
+const cor = k => { const i = ordem.indexOf(k); return `var(${PAL[i]||"--muted"})`; };
+const nome = k => (D.candidatos[estado.turno]||{})[k] || (D.candidatos[turnos[0]]||{})[k] || k;
+const candsDo = t => Object.keys(D.candidatos[t]).sort((a,b)=>D.nacional[t][b]-D.nacional[t][a]);
+
+document.getElementById("avisoExemplo").hidden = !D.exemplo;
+// no 1º turno com muitos candidatos, as tabelas mostram os 4 mais votados e somam o resto em "Outros"
+const principais = t => { const cs = candsDo(t); return cs.length > 5 ? cs.slice(0,4) : cs; };
+const outros = (r,t,suf="") => { const cs = candsDo(t); if (cs.length <= 5) return null;
+  return 100 - principais(t).reduce((a,c)=>a+(r["PCT_"+c+suf]||0),0); };
+
+function seg(el, itens, ativo, onClick){
+  el.innerHTML = itens.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${v===ativo}">${l}</button>`).join("");
+  el.onclick = e => { const b = e.target.closest("button"); if(!b) return; onClick(b.dataset.v); };
+}
+
+function renderNacional(){
+  const t = estado.turno, n = D.nacional[t], cs = candsDo(t);
+  const tiles = [
+    ["Eleitores aptos", fmt(n.APTOS), `${fmt(n.N_SECOES)} seções`],
+    ["Comparecimento", fmt(n.COMPARECIMENTO), n.APTOS ? pct(n.COMPARECIMENTO/n.APTOS*100)+" dos aptos" : ""],
+    ["Abstenção", pct(n.PCT_ABSTENCAO), fmt(n.ABSTENCOES)+" eleitores"],
+    ["Válidos", pct(n.PCT_VALIDOS), fmt(n.VALIDOS)+" votos"],
+    ["Brancos", pct(n.PCT_BRANCOS), fmt(n.BRANCOS)+" votos"],
+    ["Nulos", pct(n.PCT_NULOS), fmt(n.NULOS)+" votos"],
+  ];
+  document.getElementById("tiles").innerHTML = tiles.map(([l,v,s])=>`<div class="tile"><span class="eyebrow">${l}</span><b class="num">${v}</b><small class="num">${s}</small></div>`).join("");
+  const max = Math.max(...cs.map(c=>n["PCT_"+c]||0));
+  document.getElementById("cands").innerHTML = cs.map(c=>`<div class="cand"><span class="nome">${esc(nome(c))} <span class="mono" style="color:var(--muted)">${c.slice(2)}</span></span>
+    <span class="bar"><span style="width:${(n["PCT_"+c]||0)/max*100}%;background:${cor(c)}"></span></span>
+    <span class="pct num">${pct(n["PCT_"+c])}</span></div>`).join("") + `<div class="more num">${fmt(n.VALIDOS)} votos válidos · ${cs.map(c=>esc(nome(c))+": "+fmt(n[c])).join(" · ")}</div>`;
+  const pr = principais(t), resto = cs.filter(c=>!pr.includes(c)).reduce((x,c)=>x+(n[c]||0),0);
+  const ap = n.APTOS || n.COMPARECIMENTO, partes = [...pr.map(c=>[nome(c),n[c],cor(c)]), ...(resto?[["Demais candidatos",resto,"var(--muted)"]]:[]),["Brancos",n.BRANCOS,"var(--branco)"],["Nulos",n.NULOS,"var(--nulo)"]];
+  if (n.ABSTENCOES!=null) partes.push(["Abstenção",n.ABSTENCOES,"var(--abst)"]);
+  document.getElementById("stack").innerHTML = partes.map(([l,v,c])=>`<span title="${esc(l)}: ${fmt(v)}" style="width:${v/ap*100}%;background:${c}"></span>`).join("");
+  document.getElementById("stackLeg").innerHTML = partes.map(([l,v,c])=>`<span><i style="background:${c}"></i>${esc(l)} <span class="num">${pct(v/ap*100)}</span></span>`).join("");
+  document.getElementById("nacNota").textContent = `${t}º turno · percentuais de brancos e nulos sobre o total de votos; abstenção sobre os aptos.`;
+}
+
+function renderCmp(){
+  const c = D.comparativo; const box = document.getElementById("secCmp");
+  if (!temCmp || !c || !c.finalistas) { box.hidden = true; return; }
+  box.hidden = false;
+  const tiles = [["Votos dos eliminados no 1º turno", fmt(c.eliminados_votos_1T), "ficaram livres para o 2º turno"]];
+  c.finalistas.forEach(f=>tiles.push([`Ganho de ${D.candidatos["2"][f]}`, sgn(c.ganho_finalistas[f],0), "votos a mais que no 1º turno"]));
+  tiles.push(["Brancos", sgn(c.delta_brancos,0), "variação de votos"],["Nulos", sgn(c.delta_nulos,0), "variação de votos"],
+    ["Comparecimento", sgn(c.delta_comparecimento,0), "variação de eleitores"],
+    ["Municípios que viraram", fmt(c.municipios_viraram), "líder do 1º ≠ vencedor do 2º"],
+    ["Seções que viraram", fmt(c.secoes_viraram), `de ${fmt(c.secoes_comparadas)} comparadas`]);
+  if (tiles.length % 4) tiles.splice(1, 0, ["Total de válidos no 2º turno", fmt(D.nacional["2"].VALIDOS), `${sgn(D.nacional["2"].VALIDOS - D.nacional["1"].VALIDOS,0)} frente ao 1º turno`]);
+  document.getElementById("cmpTiles").innerHTML = tiles.map(([l,v,s])=>`<div class="tile"><span class="eyebrow">${esc(l)}</span><b class="num">${v}</b><small>${s}</small></div>`).join("");
+}
+
+function tabela(el, cols, rows, sortState, rerender){
+  el.innerHTML = `<thead><tr>${cols.map((c,i)=>`<th class="${c.n?"n":""}"><button type="button" data-i="${i}">${c.h}</button></th>`).join("")}</tr></thead>
+  <tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td class="${c.n?"n":""}">${c.f(r)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+  el.querySelector("thead").onclick = e => { const b = e.target.closest("button"); if(!b) return; const i=+b.dataset.i;
+    sortState.dir = sortState.i===i ? -sortState.dir : -1; sortState.i = i; rerender(); };
+}
+function ordenar(rows, cols, s){ if (s.i==null) return rows; const k = cols[s.i].k;
+  return [...rows].sort((a,b)=>{ const x=k(a), y=k(b); if(x==null) return 1; if(y==null) return -1; return (x>y?1:x<y?-1:0)*s.dir; }); }
+const mini = (r, cs, suf="") => `<span class="mini">${cs.map(c=>`<span style="width:${r["PCT_"+c+suf]||0}%;background:${cor(c)}"></span>`).join("")}</span>`;
+
+const sUF = {i:null,dir:-1};
+function renderUF(){
+  const t = estado.turno, cs = principais(t), rows = D.uf[t], temOut = candsDo(t).length > 5;
+  const cols = [{h:"UF",f:r=>`<b>${r.SG_UF}</b>`,k:r=>r.SG_UF},
+    {h:"Seções",n:1,f:r=>fmt(r.N_SECOES),k:r=>r.N_SECOES},{h:"Aptos",n:1,f:r=>fmt(r.APTOS),k:r=>r.APTOS},
+    {h:"Divisão",f:r=>mini(r,cs),k:r=>r["PCT_"+cs[0]]},
+    ...cs.map(c=>({h:esc(nome(c)),n:1,f:r=>pct(r["PCT_"+c]),k:r=>r["PCT_"+c]})),
+    ...(temOut?[{h:"Outros",n:1,f:r=>pct(outros(r,t)),k:r=>outros(r,t)}]:[]),
+    {h:"Brancos",n:1,f:r=>pct(r.PCT_BRANCOS),k:r=>r.PCT_BRANCOS},{h:"Nulos",n:1,f:r=>pct(r.PCT_NULOS),k:r=>r.PCT_NULOS},
+    {h:"Abstenção",n:1,f:r=>pct(r.PCT_ABSTENCAO),k:r=>r.PCT_ABSTENCAO}];
+  tabela(document.getElementById("tUF"), cols, ordenar(rows,cols,sUF), sUF, renderUF);
+  const [a,b] = candsDo(t);
+  const ord = [...rows].sort((x,y)=>(y["PCT_"+a]||0)-(x["PCT_"+a]||0));
+  document.getElementById("ufLeg").innerHTML = [a,b].map(c=>`<span><i style="background:${cor(c)}"></i>${esc(nome(c))}</span>`).join("") + (temOut?`<span><i style="background:var(--abst)"></i>Demais</span>`:"");
+  document.getElementById("ufChart").innerHTML = ord.map(r=>`<div class="ufrow"><b>${r.SG_UF}</b>
+    <span class="trk" title="${r.SG_UF}: ${esc(nome(a))} ${pct(r["PCT_"+a])} · ${esc(nome(b))} ${pct(r["PCT_"+b])}"><span style="width:${r["PCT_"+a]||0}%;background:${cor(a)}"></span><span style="flex:1"></span><span style="width:${r["PCT_"+b]||0}%;background:${cor(b)}"></span></span>
+    <span class="v num" style="color:${cor(a)}">${pct(r["PCT_"+a])}</span><span class="v num" style="color:${cor(b)}">${pct(r["PCT_"+b])}</span></div>`).join("");
+}
+
+const sMun = {i:null,dir:-1}; let LIM = 50;
+function renderMun(){
+  const cmp = temCmp && D.municipios.length && "VIROU" in D.municipios[0];
+  document.getElementById("lblVir").hidden = !cmp;
+  const q = document.getElementById("qMun").value.trim().toLocaleUpperCase("pt-BR").normalize("NFD").replace(/\p{M}/gu,"");
+  const uf = document.getElementById("ufMun").value, vir = document.getElementById("soVir").checked;
+  let rows = D.municipios.filter(r => (!uf||r.SG_UF===uf) && (!q||String(r.NM_MUNICIPIO).normalize("NFD").replace(/\p{M}/gu,"").includes(q)) && (!vir||r.VIROU));
+  let cols;
+  if (cmp){
+    const fin = D.comparativo.finalistas, nm = k => esc(D.candidatos["2"][k]);
+    cols = [{h:"Município",f:r=>`${esc(r.NM_MUNICIPIO)} ${r.VIROU?'<span class="pill vir">virou</span>':""}`,k:r=>r.NM_MUNICIPIO},
+      {h:"UF",f:r=>r.SG_UF,k:r=>r.SG_UF},{h:"Aptos",n:1,f:r=>fmt(r.APTOS_2T),k:r=>r.APTOS_2T},
+      {h:"Líder 1º",f:r=>esc(nome(r.VENCEDOR_1T)),k:r=>r.VENCEDOR_1T},{h:"Vencedor 2º",f:r=>esc(nome(r.VENCEDOR_2T)),k:r=>r.VENCEDOR_2T},
+      {h:"2º turno",f:r=>mini(r,fin,"_2T"),k:r=>r["PCT_"+fin[0]+"_2T"]},
+      ...fin.flatMap(c=>[{h:nm(c)+" 1º",n:1,f:r=>pct(r["PCT_"+c+"_1T"]),k:r=>r["PCT_"+c+"_1T"]},{h:nm(c)+" 2º",n:1,f:r=>pct(r["PCT_"+c+"_2T"]),k:r=>r["PCT_"+c+"_2T"]},
+        {h:"Δ p.p.",n:1,f:r=>sgn(r["DELTA_PCT_"+c]),k:r=>r["DELTA_PCT_"+c]}]),
+      {h:"Nulos 2º",n:1,f:r=>pct(r.PCT_NULOS_2T),k:r=>r.PCT_NULOS_2T},{h:"Δ nulos",n:1,f:r=>sgn(r.DELTA_PCT_NULOS),k:r=>r.DELTA_PCT_NULOS},
+      {h:"Brancos 2º",n:1,f:r=>pct(r.PCT_BRANCOS_2T),k:r=>r.PCT_BRANCOS_2T},
+      {h:"Abst. 2º",n:1,f:r=>pct(r.PCT_ABSTENCAO_2T),k:r=>r.PCT_ABSTENCAO_2T},{h:"Δ abst.",n:1,f:r=>sgn(r.DELTA_PCT_ABSTENCAO),k:r=>r.DELTA_PCT_ABSTENCAO}];
+    document.getElementById("munNota").textContent = "1º e 2º turno lado a lado. Δ em pontos percentuais.";
+  } else {
+    const cs = candsDo(turnos[0]);
+    cols = [{h:"Município",f:r=>esc(r.NM_MUNICIPIO),k:r=>r.NM_MUNICIPIO},{h:"UF",f:r=>r.SG_UF,k:r=>r.SG_UF},
+      {h:"Aptos",n:1,f:r=>fmt(r.APTOS),k:r=>r.APTOS},...cs.map(c=>({h:esc(nome(c)),n:1,f:r=>pct(r["PCT_"+c]),k:r=>r["PCT_"+c]})),
+      {h:"Brancos",n:1,f:r=>pct(r.PCT_BRANCOS),k:r=>r.PCT_BRANCOS},{h:"Nulos",n:1,f:r=>pct(r.PCT_NULOS),k:r=>r.PCT_NULOS},
+      {h:"Abstenção",n:1,f:r=>pct(r.PCT_ABSTENCAO),k:r=>r.PCT_ABSTENCAO}];
+  }
+  rows = ordenar(rows, cols, sMun);
+  if (sMun.i==null) rows.sort((a,b)=>(b.APTOS_2T??b.APTOS??0)-(a.APTOS_2T??a.APTOS??0));
+  tabela(document.getElementById("tMun"), cols, rows.slice(0,LIM), sMun, renderMun);
+  document.getElementById("munMore").innerHTML = rows.length>LIM
+    ? `Mostrando ${fmt(LIM)} de ${fmt(rows.length)} municípios, do maior para o menor eleitorado. <button type="button" id="btnMais" class="btn">Mostrar mais 100</button>`
+    : `${fmt(rows.length)} municípios.`;
+  const b = document.getElementById("btnMais"); if (b) b.onclick = () => { LIM += 100; renderMun(); };
+}
+
+const ANOM = [["PCT_NULOS","Nulos"],["PCT_BRANCOS","Brancos"],["PCT_ABSTENCAO","Abstenção"],["concentracao_95","≥95% para um candidato"],["comparecimento_acima_aptos","Comparecimento > aptos"]];
+const sAn = {i:null,dir:-1}; let anLIM = 30;
+function renderAnom(){
+  const t = estado.turno, A = D.anomalias[t]||{}, cs = principais(t);
+  const tot = A.resumo || {};
+  const itens = ANOM.filter(([k])=>k in A).map(([k,l])=>[k,`${l} (${fmt(tot[k] ?? (A[k]||[]).length)})`]);
+  if (!(estado.anom in A)) estado.anom = itens[0]?.[0];
+  seg(document.getElementById("anomSeg"), itens, estado.anom, v=>{estado.anom=v; sAn.i=null; anLIM=30; renderAnom();});
+  const z = "Z_"+estado.anom;
+  const cols = [{h:"UF",f:r=>r.SG_UF,k:r=>r.SG_UF},{h:"Município",f:r=>esc(r.NM_MUNICIPIO),k:r=>r.NM_MUNICIPIO},
+    {h:"Zona",n:1,f:r=>r.NR_ZONA,k:r=>r.NR_ZONA},{h:"Seção",n:1,f:r=>r.NR_SECAO,k:r=>r.NR_SECAO},
+    {h:"Aptos",n:1,f:r=>fmt(r.APTOS),k:r=>r.APTOS},{h:"Compar.",n:1,f:r=>fmt(r.COMPARECIMENTO),k:r=>r.COMPARECIMENTO},
+    ...cs.map(c=>({h:esc(nome(c)),n:1,f:r=>pct(r["PCT_"+c]),k:r=>r["PCT_"+c]})),
+    {h:"Brancos",n:1,f:r=>pct(r.PCT_BRANCOS),k:r=>r.PCT_BRANCOS},{h:"Nulos",n:1,f:r=>pct(r.PCT_NULOS),k:r=>r.PCT_NULOS},
+    {h:"Abst.",n:1,f:r=>pct(r.PCT_ABSTENCAO),k:r=>r.PCT_ABSTENCAO}];
+  if ((A[estado.anom]||[])[0] && z in A[estado.anom][0]) cols.push({h:"Desvios",n:1,f:r=>sgn(r[z],1),k:r=>r[z]});
+  const el = document.getElementById("tAnom");
+  const rows = A[estado.anom]||[];
+  const vis = Math.min(anLIM, rows.length);
+  document.getElementById("anomNota").innerHTML = (vis < (tot[estado.anom]||0)
+    ? `Mostrando as ${fmt(vis)} mais extremas de ${fmt(tot[estado.anom])}. A lista completa está nos arquivos CSV.` : "")
+    + (vis < rows.length ? ` <button type="button" class="btn" id="btnAnMais">Mostrar mais 50</button>` : "");
+  const bm = document.getElementById("btnAnMais"); if (bm) bm.onclick = () => { anLIM += 50; renderAnom(); };
+  if (!rows.length) { el.innerHTML = `<tbody><tr><td>Nenhuma seção nesta categoria no ${t}º turno.</td></tr></tbody>`; return; }
+  tabela(el, cols, ordenar(rows,cols,sAn).slice(0,anLIM), sAn, renderAnom);
+}
+
+function renderFatos(){
+  const box = document.getElementById("secFatos"), c = D.comparativo;
+  if (!temCmp || !c || !c.finalistas) { box.hidden = true; return; }
+  box.hidden = false;
+  const n1 = D.nacional["1"], n2 = D.nacional["2"], [f1,f2] = c.finalistas;
+  const v2 = n2[f1] >= n2[f2] ? f1 : f2, p2 = v2===f1 ? f2 : f1;
+  const l1 = n1[f1] >= n1[f2] ? f1 : f2;
+  const viradas = D.municipios.filter(r=>r.VIROU);
+  const paraV = viradas.filter(r=>r.VENCEDOR_2T===v2).length;
+  const fatos = [
+    [`${esc(nome(v2))} venceu com ${pct(n2["PCT_"+v2],2)}`, `${fmt(n2[v2]-n2[p2])} votos à frente de ${esc(nome(p2))} (${pct(n2["PCT_"+p2],2)}) no 2º turno.`],
+    l1!==v2 ? [`Virada sobre o 1º turno`, `${esc(nome(l1))} liderou o 1º turno com ${pct(n1["PCT_"+l1],2)} contra ${pct(n1["PCT_"+v2],2)} de ${esc(nome(v2))}.`]
+            : [`Liderança mantida`, `${esc(nome(v2))} já liderava o 1º turno com ${pct(n1["PCT_"+v2],2)}.`],
+    [`${esc(nome(v2))} +${fmt(c.ganho_finalistas[v2])} votos`, `contra +${fmt(c.ganho_finalistas[p2])} de ${esc(nome(p2))}. Os eliminados tinham ${fmt(c.eliminados_votos_1T)} votos no 1º turno.`],
+    [`${sgn(c.delta_comparecimento,0)} eleitores a mais nas urnas`, `A abstenção caiu de ${pct(n1.PCT_ABSTENCAO)} para ${pct(n2.PCT_ABSTENCAO)} dos aptos.`],
+    [`Nulos ${sgn(c.delta_nulos,0)} · brancos ${sgn(c.delta_brancos,0)}`, `Nulos foram de ${pct(n1.PCT_NULOS)} para ${pct(n2.PCT_NULOS)} e brancos de ${pct(n1.PCT_BRANCOS)} para ${pct(n2.PCT_BRANCOS)} do total de votos.`],
+    [`${fmt(c.municipios_viraram)} municípios viraram`, `${fmt(paraV)} passaram para ${esc(nome(v2))}. Entre as seções, ${fmt(c.secoes_viraram)} de ${fmt(c.secoes_comparadas)} mudaram de vencedor.`],
+  ];
+  document.getElementById("fatos").innerHTML = fatos.map(([b,s])=>`<li><b class="num">${b}</b><span class="num">${s}</span></li>`).join("");
+}
+
+function renderVal(){
+  const V = D.validacao || {}, box = document.getElementById("secVal");
+  const ts = Object.keys(V); if (!ts.length) { box.hidden = true; return; }
+  box.hidden = false;
+  const itens = Object.keys(V[ts[0]]);
+  const rot = k => ({validos:"Votos válidos",brancos:"Brancos",nulos:"Nulos (inclui nulos técnicos)",comparecimento:"Comparecimento",aptos:"Eleitores aptos",abstencoes:"Abstenções",secoes:"Seções instaladas"}[k] || esc(nome(k)));
+  const el = document.getElementById("tVal");
+  el.innerHTML = `<thead><tr><th>Item</th>${ts.map(t=>`<th class="n">${t}º turno · seções</th><th class="n">${t}º turno · TSE</th><th class="n">Dif.</th>`).join("")}</tr></thead>
+    <tbody>${itens.map(k=>`<tr><td>${rot(k)}</td>${ts.map(t=>{const x=V[t][k]; return x?`<td class="n">${fmt(x.dados_abertos)}</td><td class="n">${fmt(x.api_resultados)}</td><td class="n ${x.diferenca?"bad":"ok"}">${x.diferenca?sgn(x.diferenca,0):"0"}</td>`:`<td></td><td></td><td></td>`}).join("")}</tr>`).join("")}</tbody>`;
+  const nt = (D.nulos_tecnicos||[]).map(n=>"nº "+n).join(", ");
+  const ger = Object.entries(D.oficial||{}).map(([t,o])=>`${t}º turno: totalização de ${o.gerado}`).join(" · ");
+  document.getElementById("valNota").textContent = (nt ? `Votos dados a ${nt} são nulos técnicos (registro fora da lista oficial de candidatos válidos) e entram como nulos. ` : "") + ger;
+}
+
+function renderTurno(){
+  seg(document.getElementById("turnoSeg"), turnos.map(t=>[t,`${t}º turno`]), estado.turno, v=>{estado.turno=v; sUF.i=null; sAn.i=null;
+    try{history.replaceState(null,"","#t"+v)}catch(e){} tudo();});
+}
+function tudo(){ renderTurno(); renderFatos(); renderVal(); renderNacional(); renderCmp(); renderUF(); renderMun(); renderAnom(); }
+
+const ufs = [...new Set(D.municipios.map(r=>r.SG_UF))].sort();
+document.getElementById("ufMun").innerHTML = `<option value="">Todas as UFs</option>`+ufs.map(u=>`<option>${u}</option>`).join("");
+["qMun","ufMun","soVir"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{LIM=50; renderMun();}));
+tudo();
+</script>
