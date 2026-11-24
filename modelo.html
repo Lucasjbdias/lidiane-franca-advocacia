@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vértice — Advocacia & Consultoria (modelo)</title>
+<meta name="description" content="Modelo de site jurídico — assessoria e consultoria orientadas a solução. Demonstração white-label.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f7f6; --surface:#ffffff; --ink:#141a19; --mut:#5c6763; --soft:#eaefed;
+  --line:rgba(18,26,24,.10); --acc:#0f766e; --acc2:#12907f; --accsoft:#e6f1ef;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;font-weight:600;line-height:1.06;letter-spacing:-.02em;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+.acc{color:var(--acc)}
+.eyb{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);display:inline-flex;align-items:center;gap:10px}
+.eyb::before{content:"";width:26px;height:1px;background:var(--acc)}
+.badge{position:fixed;top:14px;right:14px;z-index:90;background:var(--ink);color:#fff;font:600 10px/1 'Space Grotesk',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:6px}
+/* nav */
+.nav{position:sticky;top:0;z-index:60;background:rgba(245,247,246,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .in{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;letter-spacing:-.01em}
+.mono{width:34px;height:34px;border:1.5px solid var(--acc);border-radius:9px;display:grid;place-items:center;color:var(--acc);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px}
+.menu{display:flex;align-items:center;gap:6px}
+.menu a{font-size:14px;font-weight:450;color:var(--mut);padding:9px 14px;border-radius:8px;transition:.18s}
+.menu a:hover{color:var(--ink);background:var(--soft)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--acc);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;padding:11px 20px;border-radius:9px;border:0;cursor:pointer;transition:.18s}
+.btn:hover{background:var(--acc2)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc);background:transparent}
+.hamb{display:none;background:none;border:0;cursor:pointer;padding:8px}
+.hamb span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;transition:.2s}
+/* hero */
+.hero{padding:92px 0 78px;position:relative;overflow:hidden}
+.hgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(40px,5.4vw,68px);max-width:16ch;margin:20px 0 0}
+.hero h1 .g{color:var(--acc)}
+.hero .sub{font-size:19px;color:var(--mut);max-width:46ch;margin:24px 0 30px}
+.cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.link-arrow{font-size:14px;font-weight:500;color:var(--ink);display:inline-flex;gap:7px;align-items:center;padding:11px 6px}
+.link-arrow:hover{color:var(--acc)}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:38px}
+.chip{font-size:12.5px;color:var(--mut);background:var(--surface);border:1px solid var(--line);border-radius:30px;padding:7px 14px}
+.chip b{color:var(--acc);font-weight:600}
+.hero-art{position:relative;height:360px}
+.hero-art svg{position:absolute;inset:0;width:100%;height:100%}
+.hcard{position:absolute;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 20px 50px rgba(18,26,24,.07)}
+.hcard .k{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;color:var(--acc)}
+.hcard .v{font-size:12.5px;color:var(--mut)}
+/* seções */
+section{scroll-margin-top:84px}
+.sec{padding:82px 0}
+.sec.alt{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.hd{max-width:640px;margin-bottom:44px}
+.hd h2{font-size:clamp(28px,3.6vw,40px);margin:14px 0 0}
+.hd p{color:var(--mut);font-size:17px;margin:14px 0 0}
+/* soluções */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:26px;transition:.2s}
+.sec.alt .card{background:var(--bg)}
+.card:hover{border-color:var(--acc);transform:translateY(-3px);box-shadow:0 16px 36px rgba(18,26,24,.06)}
+.card .n{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--acc);letter-spacing:.04em}
+.card h3{font-size:20px;margin:12px 0 8px}
+.card p{margin:0;color:var(--mut);font-size:14.5px}
+.card .go{margin-top:16px;font-size:13px;font-weight:600;color:var(--acc);display:inline-flex;gap:6px;opacity:0;transform:translateX(-4px);transition:.2s}
+.card:hover .go{opacity:1;transform:none}
+/* método */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.step{position:relative;padding-top:26px}
+.step::before{content:"";position:absolute;top:0;left:0;width:44px;height:3px;background:var(--acc);border-radius:2px}
+.step .n{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--mut);letter-spacing:.1em}
+.step h4{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;margin:8px 0 8px}
+.step p{margin:0;color:var(--mut);font-size:14px}
+/* diferenciais */
+.grid3b{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.dif .ic{width:44px;height:44px;border-radius:11px;background:var(--accsoft);display:grid;place-items:center;margin-bottom:14px}
+.dif h3{font-family:'Space Grotesk',sans-serif;font-size:19px;margin:0 0 8px}
+.dif p{margin:0;color:var(--mut);font-size:15px}
+/* faixa */
+.band{background:var(--ink);color:#eef2f1;border-radius:20px;padding:60px 48px;text-align:center}
+.band h2{font-size:clamp(26px,3.4vw,40px);max-width:22ch;margin:0 auto;color:#fff}
+.band p{color:#9fb0ab;margin:16px auto 0;max-width:46ch}
+.band .btn{margin-top:26px;background:#fff;color:var(--ink)}
+.band .btn:hover{background:var(--accsoft)}
+/* contato */
+.cont{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.ci{border-top:1px solid var(--line);padding:16px 0}
+.ci .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:5px}
+.ci .v{font-family:'Space Grotesk',sans-serif;font-size:20px}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:30px}
+.form label{display:block;font-size:12px;font-weight:500;color:var(--mut);margin:0 0 6px}
+.form input,.form textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:12px 14px;font:inherit;background:var(--bg);margin-bottom:16px;color:var(--ink)}
+.form input:focus,.form textarea:focus{outline:0;border-color:var(--acc)}
+.form button{width:100%}
+/* footer */
+.foot{border-top:1px solid var(--line);padding:44px 0 40px;color:var(--mut)}
+.foot .top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.foot .dc{font-size:12px;margin-top:24px;max-width:760px;line-height:1.7}
+.reveal{opacity:0;transform:translateY(18px);transition:.6s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:860px){
+  .menu{position:fixed;inset:72px 0 auto 0;background:var(--surface);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 20px;display:none}
+  .menu.open{display:flex}
+  .menu a{padding:14px 8px;border-bottom:1px solid var(--line)}
+  .menu .btn{margin-top:12px;justify-content:center}
+  .hamb{display:block}
+  .hgrid,.cont{grid-template-columns:1fr}
+  .hero-art{display:none}
+  .grid3,.steps,.grid3b{grid-template-columns:1fr}
+  .band{padding:44px 24px}
+}
+</style>
+</head>
+<body>
+<div class="badge">Template · demonstração</div>
+
+<header class="nav"><div class="wrap in">
+  <a href="#top" class="brand"><span class="mono">V</span> Vértice</a>
+  <nav class="menu" id="menu">
+    <a href="#solucoes">Soluções</a>
+    <a href="#metodo">Método</a>
+    <a href="#escritorio">Escritório</a>
+    <a href="#contato">Contato</a>
+    <a href="#contato" class="btn">Falar agora</a>
+  </nav>
+  <button class="hamb" id="hamb" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero"><div class="wrap hgrid">
+  <div class="reveal">
+    <span class="eyb">Advocacia &amp; Consultoria</span>
+    <h1>Clareza jurídica para <span class="g">decidir com segurança.</span></h1>
+    <p class="sub">Assessoria e consultoria para pessoas e empresas — do diagnóstico à solução, com transparência sobre riscos, prazos e caminhos.</p>
+    <div class="cta-row">
+      <a href="#contato" class="btn">Agendar conversa →</a>
+      <a href="#solucoes" class="link-arrow">Ver soluções ↓</a>
+    </div>
+    <div class="chips">
+      <span class="chip"><b>+</b> Atuação preventiva e contenciosa</span>
+      <span class="chip">Presencial &amp; on-line</span>
+      <span class="chip">Resposta no mesmo dia útil</span>
+    </div>
+  </div>
+  <div class="hero-art reveal">
+    <svg viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g stroke="#0f766e" stroke-opacity="0.20" stroke-width="1.2">
+        <path d="M40 330 L210 40 L380 330"/>
+        <path d="M78 330 L210 105 L342 330"/>
+        <path d="M116 330 L210 168 L304 330"/>
+        <path d="M154 330 L210 232 L266 330"/>
+      </g>
+      <circle cx="210" cy="40" r="6" fill="#0f766e"/>
+    </svg>
+    <div class="hcard" style="top:26px;right:8px"><div class="k">6</div><div class="v">áreas de atuação</div></div>
+    <div class="hcard" style="bottom:12px;left:0"><div class="k">1 conversa</div><div class="v">para entender o seu caso</div></div>
+  </div>
+</div></section>
+
+<!-- SOLUÇÕES -->
+<section id="solucoes" class="sec alt"><div class="wrap">
+  <div class="hd reveal"><span class="eyb">O que resolvemos</span><h2>Soluções para cada necessidade</h2>
+    <p>Do preventivo ao contencioso — escopo claro, com foco no resultado que você precisa.</p></div>
+  <div class="grid3">
+    <article class="card reveal"><div class="n">01</div><h3>Família &amp; Sucessões</h3><p>Divórcio, guarda, alimentos, inventário e planejamento sucessório.</p><span class="go">Saiba mais →</span></article>
+    <article class="card reveal"><div class="n">02</div><h3>Empresarial &amp; Contratos</h3><p>Constituição, contratos, societário e adequação à LGPD.</p><span class="go">Saiba mais →</span></article>
+    <article class="card reveal"><div class="n">03</div><h3>Trabalhista</h3><p>Assessoria preventiva e defesa — para a empresa e para o profissional.</p><span class="go">Saiba mais →</span></article>
+    <article class="card reveal"><div class="n">04</div><h3>Cível &amp; Consumidor</h3><p>Responsabilidade civil, cobranças, indenizações e relações de consumo.</p><span class="go">Saiba mais →</span></article>
+    <article class="card reveal"><div class="n">05</div><h3>Setor Público</h3><p>Licitações e contratos administrativos sob a Lei 14.133/2021.</p><span class="go">Saiba mais →</span></article>
+    <article class="card reveal"><div class="n">06</div><h3>Previdenciário</h3><p>Aposentadorias, benefícios e revisões junto ao INSS.</p><span class="go">Saiba mais →</span></article>
+  </div>
+</div></section>
+
+<!-- MÉTODO -->
+<section id="metodo" class="sec"><div class="wrap">
+  <div class="hd reveal"><span class="eyb">Como resolvemos</span><h2>Um método simples e transparente</h2>
+    <p>Você sempre sabe onde o caso está e qual é o próximo passo.</p></div>
+  <div class="steps">
+    <div class="step reveal"><div class="n">01</div><h4>Diagnóstico</h4><p>Entendemos o problema e o objetivo.</p></div>
+    <div class="step reveal"><div class="n">02</div><h4>Estratégia</h4><p>Mapeamos riscos, prazos e caminhos.</p></div>
+    <div class="step reveal"><div class="n">03</div><h4>Execução</h4><p>Atuação técnica, do documento à disputa.</p></div>
+    <div class="step reveal"><div class="n">04</div><h4>Acompanhamento</h4><p>Você é atualizado em cada etapa.</p></div>
+  </div>
+</div></section>
+
+<!-- DIFERENCIAIS / ESCRITÓRIO -->
+<section id="escritorio" class="sec alt"><div class="wrap">
+  <div class="hd reveal"><span class="eyb">Por que a Vértice</span><h2>Expertise técnica, solução clara</h2>
+    <p>Um escritório que traduz o jurídico em decisões seguras — sem juridiquês.</p></div>
+  <div class="grid3b">
+    <div class="dif reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="1.8"><path d="M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7l7-4z"/></svg></div><h3>Expertise técnica</h3><p>Estudo profundo de cada caso — decisão bem informada é decisão mais segura.</p></div>
+    <div class="dif reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="1.8"><path d="M5 12l4 4L19 6"/></svg></div><h3>Solução clara</h3><p>Linguagem direta e caminhos objetivos, do primeiro contato à conclusão.</p></div>
+    <div class="dif reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Transparência</h3><p>Honorários, prazos e estratégia definidos com clareza — antes de qualquer passo.</p></div>
+  </div>
+</div></section>
+
+<!-- FAIXA -->
+<section class="sec"><div class="wrap">
+  <div class="band reveal">
+    <h2>Assessoria que traduz o jurídico em decisões seguras.</h2>
+    <p>Conte o seu caso — apresentamos os caminhos possíveis, sem compromisso.</p>
+    <a href="#contato" class="btn">Falar com o escritório →</a>
+  </div>
+</div></section>
+
+<!-- CONTATO -->
+<section id="contato" class="sec alt"><div class="wrap">
+  <div class="hd reveal"><span class="eyb">Contato</span><h2>Vamos conversar sobre o seu caso</h2>
+    <p>Atendimento presencial e on-line, com retorno no mesmo dia útil.</p></div>
+  <div class="cont">
+    <div class="reveal">
+      <div class="ci"><div class="k">WhatsApp / Telefone</div><div class="v">(00) 00000-0000</div></div>
+      <div class="ci"><div class="k">E-mail</div><div class="v">contato@vertice.adv.br</div></div>
+      <div class="ci"><div class="k">Endereço</div><div class="v">Rua Exemplo, 000 · Cidade/UF</div></div>
+      <div class="ci"><div class="k">Atendimento</div><div class="v">Seg. a sex., 9h–18h</div></div>
+    </div>
+    <form class="form reveal" onsubmit="return sendWA(this)">
+      <label>Nome</label><input name="n" required>
+      <label>Mensagem</label><textarea name="m" rows="4" required></textarea>
+      <button class="btn" type="submit">Enviar pelo WhatsApp</button>
+    </form>
+  </div>
+</div></section>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <div class="top">
+    <div><div class="brand"><span class="mono">V</span> Vértice</div>
+      <div style="margin-top:10px;font-size:13px">Advocacia &amp; Consultoria · OAB/UF 000.000</div></div>
+    <div style="display:flex;gap:44px;flex-wrap:wrap">
+      <div><div style="font-family:'Space Grotesk';font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:10px">Navegação</div>
+        <div style="font-size:14px;display:grid;gap:8px"><a href="#solucoes">Soluções</a><a href="#metodo">Método</a><a href="#contato">Contato</a></div></div>
+      <div><div style="font-family:'Space Grotesk';font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:10px">Contato</div>
+        <div style="font-size:14px;display:grid;gap:8px"><span>(00) 00000-0000</span><span>contato@vertice.adv.br</span><span>Cidade/UF</span></div></div>
+    </div>
+  </div>
+  <p class="dc">Conteúdo meramente informativo, sem captação de clientela ou promessa de resultado, em conformidade com o Código de Ética e o Provimento nº 205/2021 da OAB. Modelo de demonstração — marca e dados fictícios.</p>
+</div></footer>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  var h=document.getElementById('hamb'),m=document.getElementById('menu');
+  h.addEventListener('click',function(){m.classList.toggle('open');});
+  m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){m.classList.remove('open');});});
+  window.sendWA=function(f){var t='Olá, sou '+f.n.value+'. '+f.m.value;window.open('https://wa.me/000000000000?text='+encodeURIComponent(t),'_blank');return false;};
+})();
+</script>
+</body>
+</html>

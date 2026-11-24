@@ -2,11 +2,54 @@ SITE — Dra. Lidiane França Dias
 --------------------------------------------------------------------
 Site estático de uma página, editorial. Sem framework, CDN, cookie ou rastreador.
 
-PUBLICAR (grátis): https://app.netlify.com/drop — arraste a PASTA site/ inteira.
-Depois aponte o domínio lidianefranca.com.br (ver PUBLICAR-lidianefranca.md).
+CORRIGIDO EM 28/10/2026 — a versão anterior deste arquivo dizia:
 
-EDITAR ANTES:
-· index.html → <!-- EDITAR: --> na seção Sobre (2–3 parágrafos reais, pós-graduações).
-· Contato já usa advfrancadias@gmail.com, (31) 99632-0110 e o endereço da sociedade.
+    "PUBLICAR (grátis): https://app.netlify.com/drop
+     — arraste a PASTA site/ inteira."
 
-Arquivos: index.html · estilo.css · fontes/ · img/ · robots.txt · sitemap.xml
+Isso está ERRADO, em dois pontos, e cada um causa um estrago diferente:
+
+  1. O site NÃO está no Netlify. Está no GitHub Pages, conta lucasjbdias.
+     Publicar no Netlify criaria um segundo host competindo pelo mesmo
+     domínio. E o passo de DNS que acompanhava essa instrução mandava
+     trocar os registros A por 75.2.60.5 — o que derrubaria o site no ar.
+
+  2. Arrastar a pasta site/ inteira publicaria os 65 arquivos HTML que
+     estão aqui. Um só vai ao ar.
+
+COMO PUBLICAR DE VERDADE
+  Ver ../PUBLICAR-lidianefranca.md, reescrito com o que foi medido.
+  Resumo: rodar o script que monta site/_publicar/ (três arquivos) e
+  subir esses três no repositório do GitHub Pages.
+
+QUAL ARQUIVO ESTÁ NO AR
+  site/home-v2.html — confirmado por hash contra o que o domínio serve.
+  No repositório ele se chama index.html, que é o nome que o servidor
+  procura na raiz. O site/index.html daqui é OUTRO arquivo: uma versão
+  editorial, pronta e nunca publicada. Não confundir os dois.
+
+O QUE EDITAR
+  · site/home-v2.html → é o arquivo oficial, por decisão do dono (28/10).
+  · build/marca.py    → fonte única da marca: alimenta site, papelaria e
+    Instagram ao mesmo tempo. Um valor errado aqui sai nos três juntos.
+
+DADOS DE CONTATO — situação medida
+  · Telefone (31) 99632-0110 — confirmado em três fontes independentes.
+    O "9910-0000" que o material antigo mandava conferir nunca foi dado
+    em uso: era texto de aviso herdado. Fora da fila.
+  · E-mail lidianefranca@lidianefranca.com.br — definido pelo dono em
+    28/10/2026 e aplicado em todo o material.
+
+    ATENÇÃO: o domínio lidianefranca.com.br NÃO TEM REGISTRO MX
+    (medido em 28/10 no servidor autoritativo). Sem MX, mensagem
+    enviada para esse endereço não chega, mesmo havendo caixa criada
+    em algum servidor. Falta publicar o MX na zona, no Registro.br.
+    Só ADICIONAR registro — nunca mexer nos A nem no CNAME do www,
+    que são o que mantém o site no ar.
+
+  · Endereço: o da sociedade, em Sete Lagoas/MG.
+
+ARQUIVOS QUE O SITE NO AR USA
+  Nenhum além dele mesmo: imagens, fontes e CSS estão embutidos no
+  próprio HTML (por isso ele tem 324 KB). Os estilo.css, fontes/ e img/
+  que estão nesta pasta servem a outras variantes, não ao que está no ar.
